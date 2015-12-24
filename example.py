@@ -12,10 +12,13 @@ import urllib2
 from sht1x.Sht1x import Sht1x as SHT1x
 from pynest.nest import Nest
 
-# Replace <your_account> with your account number
-insights_url = "https://insights.newrelic.com/beta_api/accounts/<your_account>/events"
-# Replace with your insights "Insert Key": https://insights.newrelic.com/accounts/<your_account>/manage/api_keys
+# Replace <your_account> with your account number:
+insights_url = "https://insights-collector.newrelic.com/v1/accounts/<your_account>/events"
+
+# Replace with your Insights "Insert Key"
+# Obtain the "Insert Key" here: https://insights.newrelic.com/accounts/<your_account>/manage/api_keys
 insights_license_key = "insert_your_insights_insert_key_here"
+
 debug = False
 shtDataPin = 23
 shtClkPin = 18
@@ -57,7 +60,7 @@ try:
     print "New Relic Of Things - PIR, SHT & Nest Test (CTRL+C to exit)"
     time.sleep(2)
     while True:
-        start = time.clock()
+        start = time.time()
         nroutput['eventType'] = 'LifeOfNRPi'
         try:
             n.login()
@@ -96,9 +99,12 @@ try:
         sys.stdout.flush() 
         
         # Delay next cycle based on what's left in the interval (60s) 
-        end = time.clock()
+        end = time.time()
         timeElapsed = end - start
-        time.sleep(checkDelay - timeElapsed)
+        if timeElapsed < checkDelay: 
+            time.sleep(checkDelay - timeElapsed)
+        else:
+            time.sleep(checkDelay) 
         
 except KeyboardInterrupt:
     print ""
