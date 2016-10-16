@@ -1,0 +1,24 @@
+{
+  "name": "New-Relic-of-Things",
+  "version": "0.0.1",
+  "dependencies": {
+    "ds18b20": "0.1.0",
+    "node-insights" : "1.0.15"
+  },
+  "description": "New-Relic-of-Things - IoT on the New Relic Insights platform",
+  "main": "newrelic_pizero.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sschwartzman/New-Relic-of-Things.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sschwartzman/New-Relic-of-Things/issues"
+  },
+  "homepage": "https://github.com/sschwartzman/New-Relic-of-Things#readme"
+}
