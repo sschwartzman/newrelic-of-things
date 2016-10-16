@@ -24,12 +24,14 @@ setInterval(function() {
     taking_temp = true;
     ds18b20.sensors(function(err, ids) {
       if (err) {
+        taking_temp = false;
         return console.error('Can not get sensor IDs', err);
       }
       debugLog('Sensor IDs', ids);
       ids.forEach(function(id) {
         ds18b20.temperature(id, function(err, value) {
           if (err) {
+            taking_temp = false;
             return console.error('Can not get temperature for sensor ID', id, 'error: ', err);
           }
           debugLog('Current temperature is', value);
@@ -39,9 +41,9 @@ setInterval(function() {
             currTempC: value,
             currTempF: fvalue
           });
+          taking_temp = false;
         });
       });
     });
-    taking_temp = false;
   }
 }, polling_interval);
