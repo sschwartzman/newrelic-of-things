@@ -1,0 +1,9 @@
+# Settings for Eleduino 7" Touchscreen - NR IoT
+hdmi_group=2
+hdmi_mode=1
+hdmi_mode=87
+hdmi_cvt 800 480 60 6 0 0 0
+max_usb_current=1
+
+# Other settings for NR IoT
+dtoverlay=w1-gpio
