@@ -1,9 +1,9 @@
 {
   "name": "New-Relic-of-Things",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "dependencies": {
     "ds18b20": "0.1.0",
-    "node-insights" : "1.0.15"
+    "request" : ">=2.0.75"
   },
   "description": "New-Relic-of-Things - IoT on the New Relic Insights platform",
   "main": "newrelic_pizero.js",
