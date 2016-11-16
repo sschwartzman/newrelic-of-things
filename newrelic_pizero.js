@@ -1,7 +1,7 @@
 'use strict';
 
 var ds18b20 = require('ds18b20');
-var Insights = require('node-insights-nrot');
+var Insights = require('node-insights');
 var os = require('os');
 var request = require('request');
 var debug = require('debug')('nrot');
