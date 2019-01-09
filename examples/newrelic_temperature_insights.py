@@ -1,38 +1,25 @@
 import sys
-import time
 import json
-import nest
+import time
 import urllib
 import urllib3
-import certifi
+from w1thermsensor import W1ThermSensor
 
 # Required to set these
 insights_account = "enter_your_account_id_here"
 insights_license_key = "enter_your_insert_key_here"
-nest_login = "enter_your_nest_login_here"
-nest_pass = "enter_your_nest_password_here"
-access_token_cache_file = 'nest.json'
+sensor_location = "enter_sensor_location_here"
 
 # Likely don't have to change these, but go for it if you want
-debug = True
+debug = False
 checkDelay = 30
 
 # Don't mess with these
 nroutput = {}
 insights_url = "https://insights-collector.newrelic.com/v1/accounts/" + insights_account + "/events"
 reserved_words = ['accountId','appId','duration','timestamp','type','YESTERDAY']
-napi = nest.Nest(client_id=client_id, client_secret=client_secret, access_token_cache_file=access_token_cache_file)
-http = urllib3.PoolManager(
-    cert_reqs='CERT_REQUIRED',
-    ca_certs=certifi.where())
-
-if napi.authorization_required:
-    print('Go to ' + napi.authorize_url + ' to authorize, then enter PIN below')
-    if sys.version_info[0] < 3:
-        pin = raw_input("PIN: ")
-    else:
-        pin = input("PIN: ")
-    napi.request_token(pin)
+sensor = W1ThermSensor()
+http = urllib3.PoolManager()
 
 def add_to_insights():
     try:
@@ -59,21 +46,21 @@ def add_to_insights():
         pass # i know, i don't like it either, but we don't want a single failed connection to break the loop.
 
 try:
-    print("New Relic Of Things - Nest (CTRL+C to exit)")
+    print("New Relic Of Things - Temperature Sensor (CTRL+C to exit)")
     time.sleep(2)
     while True:
         start = time.time()
-
-        for structure in napi.structures:
-            for device in structure.thermostats:
-                nroutput = device._device
-                nroutput['eventType'] = 'NestThermostatEvent'
-                add_to_insights()
-
+        nroutput['eventType'] = 'PiTemperatureSensorEvent'
+        nroutput['sensorLocation'] = sensor_location
+        nroutput['temperature_c'] = sensor.get_temperature()
+        nroutput['temperature_f'] = sensor.get_temperature(W1ThermSensor.DEGREES_F)
+        if debug:
+            print("Temperature: {} Temp (F): {} Temp (C): {}".format(nroutput['temperature_c'], nroutput['temperature_f']))
+        add_to_insights()
         nroutput = {}
         sys.stdout.flush()
 
-        # Delay next cycle based on what's left in the interval (30s)
+        # Delay next cycle based on what's left in the interval
         end = time.time()
         timeElapsed = end - start
         if timeElapsed < checkDelay:
@@ -81,5 +68,4 @@ try:
         else:
             time.sleep(checkDelay)
 except KeyboardInterrupt:
-    print("")
-    print("Quitting.")
+    print("\nQuitting.")

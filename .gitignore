@@ -51,7 +51,8 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
-
+# Seth's Stuff
 New Relic Of Things.zip
-
 FlightStats-BoxedArea.json
+**/.DS_Store
+sandbox
