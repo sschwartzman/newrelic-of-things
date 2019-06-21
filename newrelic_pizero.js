@@ -7,9 +7,9 @@ var request = require('request');
 var debug = require('debug')('nrot');
 
 var insights_settings = {
-    insertKey: '0vSzR1h65H8I_Yzg757fuC6pkhjqnekW',
-    queryKey: 'KDIGhtIYsUUpShgOu4xCiBITiqkRsRBv',
-    accountId: '1469724'
+    insertKey: 'insert_key_here',
+    queryKey: 'query_key_here',
+    accountId: 'account_id_here'
 }
 
 var polling_interval = 10000;
